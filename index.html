@@ -16,7 +16,6 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <style>
-        /* Animación suave para la carga de las vistas */
         @keyframes fadeIn { 
             from { opacity: 0; transform: translateY(10px); } 
             to { opacity: 1; transform: translateY(0); } 
@@ -39,7 +38,8 @@
             ChevronRight: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>,
             Instagram: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>,
             WhatsApp: () => <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.498 14.382c-.301-.15-1.767-.867-2.04-.966-.273-.101-.473-.15-.673.15-.197.295-.771.964-.944 1.162-.175.195-.349.21-.646.065-.301-.15-1.265-.462-2.406-1.485-.888-.795-1.484-1.77-1.66-2.07-.174-.3-.019-.465.13-.615.136-.135.301-.345.451-.523.146-.181.194-.301.297-.496.098-.202.049-.39-.026-.54-.075-.15-.672-1.62-.922-2.206-.24-.584-.487-.51-.672-.51-.172-.015-.371-.015-.571-.015-.2 0-.523.074-.797.359-.273.3-1.045 1.02-1.045 2.475s1.07 2.865 1.219 3.075c.149.21 2.095 3.195 5.076 4.485.709.3 1.262.48 1.694.614.71.226 1.356.195 1.868.12.576-.088 1.767-.72 2.016-1.426.246-.705.246-1.305.172-1.425-.07-.12-.27-.195-.57-.345zM12 20.264c-1.47 0-2.91-.39-4.17-1.125l-.3-.18-3.105.81.825-3.03-.195-.315A8.253 8.253 0 0 1 3.75 12c0-4.56 3.72-8.28 8.28-8.28 4.56 0 8.28 3.72 8.28 8.28 0 4.56-3.72 8.28-8.28 8.28zM12 2.25C6.615 2.25 2.25 6.615 2.25 12c0 1.725.45 3.39 1.32 4.875L2.25 21.75l4.98-1.305A9.702 9.702 0 0 0 12 21.75c5.385 0 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25z"/></svg>,
-            Mail: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            Mail: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>,
+            MapPin: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
         };
 
         // --- RUTAS DE IMÁGENES ---
@@ -75,8 +75,9 @@
         };
 
         // ==========================================
-        // COMPONENTE: HERO BIENVENIDO ANIMADO (Blanco Minimalista)
+        // COMPONENTES PRINCIPALES
         // ==========================================
+
         const AnimatedHero = () => {
             const words = ['BIENVENIDO', 'WELCOME', 'BIENVENUE', 'ようこそ', '欢迎', 'ДОБРО ПОЖАЛОВАТЬ'];
             const [index, setIndex] = useState(0);
@@ -84,26 +85,24 @@
 
             useEffect(() => {
                 const cycle = setInterval(() => {
-                    setIsVisible(false); // Inicia desvanecimiento
+                    setIsVisible(false);
                     setTimeout(() => {
                         setIndex((prev) => (prev + 1) % words.length);
-                        setIsVisible(true); // Vuelve a aparecer
-                    }, 1000); // Pausa mientras está invisible para cambiar texto
-                }, 4000); // Ciclo completo
+                        setIsVisible(true);
+                    }, 1000);
+                }, 4000);
                 return () => clearInterval(cycle);
             }, []);
 
             return (
                 <div className="w-full bg-white pt-24 pb-20 mb-2 flex items-center justify-center min-h-[250px]">
                     <div className="text-center px-4 max-w-4xl">
-                        {/* Texto rotativo */}
                         <h2 
                             className={`text-3xl sm:text-4xl md:text-5xl font-black tracking-[0.4em] uppercase transition-all duration-1000 ease-in-out text-black ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 -translate-y-4 scale-95'}`}
                             style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}
                         >
                             {words[index]}
                         </h2>
-                        {/* Subtítulo sutil bajo el bienvenido */}
                         <p className={`mt-6 text-sm md:text-base font-light tracking-[0.2em] uppercase text-gray-400 transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
                             MIGUEL BALLIACHE - ART STUDIO
                         </p>
@@ -191,28 +190,115 @@
             );
         };
 
+        const Contacto = () => {
+            return (
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-24 animate-fade-in text-center">
+                    <h2 className="text-3xl md:text-4xl font-bold tracking-widest text-black uppercase mb-12">Contacto</h2>
+                    
+                    <div className="bg-gray-50 p-10 md:p-16 flex flex-col items-center justify-center space-y-10 border border-gray-100">
+                        
+                        {/* Dirección */}
+                        <div className="flex flex-col items-center space-y-3">
+                            <div className="p-3 bg-white rounded-full text-black shadow-sm border border-gray-100">
+                                <Icons.MapPin />
+                            </div>
+                            <h3 className="font-semibold text-lg tracking-wider">Estudio / Taller</h3>
+                            <p className="text-gray-500 font-light">Barrio de Egia, San Sebastián<br/>Gipuzkoa, España</p>
+                        </div>
+
+                        {/* WhatsApp */}
+                        <div className="flex flex-col items-center space-y-3">
+                            <a href="https://wa.me/34616764907" target="_blank" rel="noreferrer" className="p-3 bg-black text-white rounded-full hover:bg-gray-800 transition-colors shadow-md">
+                                <Icons.WhatsApp />
+                            </a>
+                            <h3 className="font-semibold text-lg tracking-wider">Atención Directa</h3>
+                            <a href="https://wa.me/34616764907" target="_blank" rel="noreferrer" className="text-gray-500 hover:text-black transition-colors font-light">
+                                +34 616 764 907
+                            </a>
+                        </div>
+
+                        {/* Redes y Correo */}
+                        <div className="flex flex-col items-center space-y-4 pt-6 border-t border-gray-200 w-full max-w-xs">
+                            <a href="mailto:info@balliache-arte.com" className="flex items-center space-x-3 text-gray-500 hover:text-black transition-colors">
+                                <Icons.Mail />
+                                <span className="font-light">info@balliache-arte.com</span>
+                            </a>
+                            <a href="https://www.instagram.com/balliache_artstudio?igsh=MXRicGVsOTZpaHUydA==" target="_blank" rel="noreferrer" className="flex items-center space-x-3 text-gray-500 hover:text-black transition-colors">
+                                <Icons.Instagram />
+                                <span className="font-light">@balliache_artstudio</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // ==========================================
+        // TEXTOS LEGALES (Ajustados a España)
+        // ==========================================
+        const LegalText = ({ title, children }) => (
+            <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20 animate-fade-in text-gray-700 font-light text-sm md:text-base leading-relaxed">
+                <h2 className="text-2xl font-bold tracking-widest text-black uppercase mb-8">{title}</h2>
+                <div className="space-y-6">
+                    {children}
+                </div>
+            </div>
+        );
+
+        const Terminos = () => (
+            <LegalText title="Términos y Condiciones">
+                <p><strong>1. Datos identificativos:</strong> En cumplimiento con el deber de información recogido en artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y del Comercio Electrónico (LSSICE), los datos aquí reflejados corresponden al titular del sitio web y espacio de arte "Miguel Balliache", ubicado en San Sebastián, Gipuzkoa, España.</p>
+                <p><strong>2. Uso del portal:</strong> El acceso y/o uso de este portal atribuye la condición de USUARIO, que acepta, desde dicho acceso y/o uso, las Condiciones Generales de Uso aquí reflejadas. El sitio web proporciona el acceso a multitud de informaciones, servicios o datos en Internet pertenecientes a Miguel Balliache.</p>
+                <p><strong>3. Propiedad intelectual e industrial:</strong> Miguel Balliache por sí o como cesionario, es titular de todos los derechos de propiedad intelectual e industrial de su página web, así como de los elementos contenidos en la misma (imágenes de obras, fotografías, textos, logotipos). Todos los derechos reservados. Queda expresamente prohibida la reproducción, la distribución y la comunicación pública, incluida su modalidad de puesta a disposición, de la totalidad o parte de los contenidos de esta página web, con fines comerciales, sin autorización expresa de Miguel Balliache.</p>
+            </LegalText>
+        );
+
+        const Privacidad = () => (
+            <LegalText title="Política de Privacidad">
+                <p><strong>1. Protección de datos:</strong> Miguel Balliache cumple con las directrices de la Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y garantía de los derechos digitales (LOPDGDD) y el Reglamento General de Protección de Datos (RGPD) de la UE, velando por garantizar un correcto uso y tratamiento de los datos personales del usuario.</p>
+                <p><strong>2. Recogida y finalidad:</strong> Los datos de carácter personal que pudieran ser recogidos a través de canales de contacto directo (como WhatsApp o correo electrónico) serán utilizados exclusivamente con la finalidad de atender su consulta, gestionar el interés en la adquisición de obras o proporcionar información sobre el estudio.</p>
+                <p><strong>3. Derechos de los usuarios:</strong> En todo momento podrá ejercer sus derechos de acceso, rectificación, limitación de tratamiento, supresión, portabilidad y oposición al tratamiento de sus datos de carácter personal dirigiendo su petición al correo electrónico proporcionado en la sección de contacto.</p>
+            </LegalText>
+        );
+
+        const Cookies = () => (
+            <LegalText title="Política de Cookies">
+                <p><strong>¿Qué son las cookies?</strong> Una cookie es un fichero que se descarga en su ordenador al acceder a determinadas páginas web. Las cookies permiten a una página web, entre otras cosas, almacenar y recuperar información sobre los hábitos de navegación de un usuario o de su equipo.</p>
+                <p><strong>Uso de cookies en esta web:</strong> Esta página web actúa como un portafolio de arte minimalista. Actualmente, no empleamos cookies de segmentación publicitaria ni cookies de terceros que rastreen su comportamiento para fines comerciales. Solo podrían generarse cookies técnicas estrictamente necesarias para el correcto funcionamiento de la plataforma tecnológica subyacente.</p>
+                <p><strong>Revocación y eliminación:</strong> Usted puede permitir, bloquear o eliminar las cookies instaladas en su equipo mediante la configuración de las opciones del navegador instalado en su ordenador (Chrome, Safari, Firefox, Edge, etc.).</p>
+            </LegalText>
+        );
+
+        // ==========================================
+        // APLICACIÓN PRINCIPAL
+        // ==========================================
         const App = () => {
             const [currentPath, setCurrentPath] = useState('inicio');
             const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+            // Scrolear arriba al cambiar de vista
             useEffect(() => {
                 window.scrollTo(0, 0);
                 setIsMenuOpen(false);
             }, [currentPath]);
 
+            // Se añade 'Contacto' a las opciones de navegación principal
             const navLinks = [
                 { id: 'inicio', label: 'Inicio' },
                 { id: 'pinturas', label: 'Pinturas' },
                 { id: 'ceramica', label: 'Cerámica' },
                 { id: 'bronce', label: 'Bronce' },
                 { id: 'biografia', label: 'Biografía' },
+                { id: 'contacto', label: 'Contacto' },
             ];
 
             return (
                 <div className="min-h-screen flex flex-col font-sans bg-white text-black">
+                    {/* CABECERA */}
                     <header className="fixed w-full top-0 z-50 bg-white border-b border-gray-100 shadow-sm transition-all h-20 md:h-24 flex items-center">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
                             <div className="flex justify-between items-center h-full">
+                                
                                 <div className="flex items-center gap-2 cursor-pointer" onClick={() => setCurrentPath('inicio')}>
                                     <span className="text-2xl sm:text-3xl md:text-[2.5rem] font-black tracking-widest text-black" style={{fontFamily: 'system-ui, -apple-system, sans-serif'}}>BALLIACHE</span>
                                     <div className="w-[3px] md:w-[4px] h-8 md:h-10 bg-black"></div>
@@ -221,14 +307,18 @@
                                         <span className="text-[9px] md:text-xs font-black tracking-[0.2em] text-black mt-0.5">ARTE</span>
                                     </div>
                                 </div>
-                                <nav className="hidden md:flex space-x-8">
+                                
+                                {/* Menú PC */}
+                                <nav className="hidden md:flex space-x-6 lg:space-x-8">
                                     {navLinks.map((link) => (
-                                        <button key={link.id} onClick={() => setCurrentPath(link.id)} className={`text-sm font-semibold tracking-widest uppercase transition-colors hover:text-gray-500 relative ${currentPath === link.id ? 'text-black' : 'text-gray-400'}`}>
+                                        <button key={link.id} onClick={() => setCurrentPath(link.id)} className={`text-xs lg:text-sm font-semibold tracking-widest uppercase transition-colors hover:text-gray-500 relative ${currentPath === link.id ? 'text-black' : 'text-gray-400'}`}>
                                             {link.label}
                                             {currentPath === link.id && <span className="absolute -bottom-2 left-1/2 w-1/2 -translate-x-1/2 h-0.5 bg-black rounded-full" />}
                                         </button>
                                     ))}
                                 </nav>
+                                
+                                {/* Botón Móvil */}
                                 <div className="md:hidden">
                                     <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-black p-2 focus:outline-none">
                                         {isMenuOpen ? <Icons.X /> : <Icons.Menu />}
@@ -236,6 +326,8 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        {/* Menú Desplegable Móvil */}
                         {isMenuOpen && (
                             <div className="md:hidden absolute top-full left-0 w-full bg-white border-b border-gray-100 shadow-lg py-4 px-4 flex flex-col space-y-4">
                                 {navLinks.map((link) => (
@@ -247,10 +339,10 @@
                         )}
                     </header>
 
+                    {/* CONTENIDO PRINCIPAL */}
                     <main className="flex-grow pt-20 md:pt-24">
                         {currentPath === 'inicio' && (
                             <div className="animate-fade-in">
-                                {/* Componente del Hero Minimalista Blanco */}
                                 <AnimatedHero />
                                 <Slider images={SLIDER_IMAGES} />
                             </div>
@@ -260,10 +352,18 @@
                         {currentPath === 'ceramica' && <Gallery title="Cerámica" images={CERAMICA} />}
                         {currentPath === 'bronce' && <Gallery title="Bronce" images={BRONCE} />}
                         {currentPath === 'biografia' && <Biography />}
+                        {currentPath === 'contacto' && <Contacto />}
+                        
+                        {/* Vistas Legales */}
+                        {currentPath === 'terminos' && <Terminos />}
+                        {currentPath === 'privacidad' && <Privacidad />}
+                        {currentPath === 'cookies' && <Cookies />}
                     </main>
 
+                    {/* PIE DE PÁGINA */}
                     <footer className="bg-white py-12 border-t border-gray-100 mt-auto">
                         <div className="max-w-7xl mx-auto px-4 flex flex-col items-center">
+                            
                             <div className="flex items-center gap-2 mb-6 opacity-70">
                                 <span className="text-lg font-black tracking-widest text-black">BALLIACHE</span>
                                 <div className="w-[2px] h-5 bg-black"></div>
@@ -273,7 +373,7 @@
                                 </div>
                             </div>
 
-                            <div className="flex space-x-6 mb-8">
+                            <div className="flex space-x-6 mb-6">
                                 <a href="https://www.instagram.com/balliache_artstudio?igsh=MXRicGVsOTZpaHUydA==" target="_blank" rel="noreferrer" className="text-gray-400 hover:text-black transition-colors" aria-label="Instagram">
                                     <Icons.Instagram />
                                 </a>
@@ -285,9 +385,19 @@
                                 </a>
                             </div>
                             
-                            <p className="text-xs text-gray-400 tracking-wider text-center">
-                                © {new Date().getFullYear()} MIGUEL BALLIACHE. SAN SEBASTIÁN, ESPAÑA. TODOS LOS DERECHOS RESERVADOS.
+                            <p className="text-xs text-gray-400 tracking-wider text-center mb-4">
+                                © {new Date().getFullYear()} MIGUEL BALLIACHE. SAN SEBASTIÁN, ESPAÑA.
                             </p>
+
+                            {/* Enlaces Legales */}
+                            <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-[10px] sm:text-xs text-gray-400">
+                                <button onClick={() => setCurrentPath('terminos')} className="hover:text-black transition-colors underline decoration-gray-200 underline-offset-4">Términos y Condiciones</button>
+                                <span className="hidden sm:inline">|</span>
+                                <button onClick={() => setCurrentPath('privacidad')} className="hover:text-black transition-colors underline decoration-gray-200 underline-offset-4">Política de Privacidad</button>
+                                <span className="hidden sm:inline">|</span>
+                                <button onClick={() => setCurrentPath('cookies')} className="hover:text-black transition-colors underline decoration-gray-200 underline-offset-4">Política de Cookies</button>
+                            </div>
+
                         </div>
                     </footer>
                 </div>
