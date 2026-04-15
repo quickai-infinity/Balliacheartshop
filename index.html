@@ -5,76 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Miguel Balliache | Espacio Arte</title>
     
+    <!-- Tailwind CSS para los estilos -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- React y ReactDOM -->
     <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
     
+    <!-- Babel para compilar JSX en el navegador -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <style>
-        /* Animaciones Globales */
+        /* Animación suave para la carga de las vistas */
         @keyframes fadeIn { 
             from { opacity: 0; transform: translateY(10px); } 
             to { opacity: 1; transform: translateY(0); } 
         }
         .animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
-
-        /* Estilos y Animaciones para el Nuevo Fondo Atmosférico de Ondas Pasteles */
-        @keyframes pastelGradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        @keyframes windWaveMove {
-            0% { transform: translateX(-40%) translateY(-2px); }
-            50% { transform: translateX(-60%) translateY(2px); }
-            100% { transform: translateX(-40%) translateY(-2px); }
-        }
-
-        .hero-atmospheric-bg {
-            position: relative;
-            /* Fondo con degradado de colores pasteles en movimiento */
-            background: linear-gradient(-45deg, #e3f2fd, #fce4ec, #f3e5f5, #e0f2f1, #fffde7, #e8f5e9);
-            background-size: 400% 400%;
-            animation: pastelGradient 18s ease infinite;
-            overflow: hidden;
-            
-            /* EFECTO DE BORDES DIFUMINADOS: Una máscara radial que hace que los bordes se desvanezcan a transparente */
-            -webkit-mask-image: radial-gradient(circle, black 30%, transparent 85%);
-            mask-image: radial-gradient(circle, black 30%, transparent 85%);
-        }
-
-        /* Capas de ondas de SVG simulando viento */
-        .hero-atmospheric-bg::before,
-        .hero-atmospheric-bg::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            width: 250%;
-            height: 100%;
-            background-repeat: repeat-x;
-            opacity: 0.15;
-            pointer-events: none;
-        }
-
-        /* Onda de viento 1 */
-        .hero-atmospheric-bg::before {
-            bottom: -5px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 100'%3E%3Cpath d='M0,60 C250,90 450,30 650,60 C720,70 800,50 800,60 L800,100 L0,100 Z' fill='white' /%3E%3C/svg%3E");
-            background-size: 40% 40px;
-            animation: windWaveMove 7s ease-in-out infinite alternate;
-        }
-
-        /* Onda de viento 2 (desfasada) */
-        .hero-atmospheric-bg::after {
-            bottom: -10px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 100'%3E%3Cpath d='M0,50 C180,20 350,80 550,50 C680,30 800,70 800,50 L800,100 L0,100 Z' fill='white' /%3E%3C/svg%3E");
-            background-size: 30% 50px;
-            animation: windWaveMove 9s ease-in-out infinite alternate-reverse;
-            opacity: 0.1;
-        }
     </style>
 </head>
 <body class="bg-white">
@@ -84,7 +31,7 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // Íconos SVG optimizados
+        // Íconos SVG
         const Icons = {
             Menu: () => <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>,
             X: () => <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>,
@@ -128,7 +75,7 @@
         };
 
         // ==========================================
-        // COMPONENTE: HERO ATMOSFÉRICO DIFUMINADO (Nuevo)
+        // COMPONENTE: HERO BIENVENIDO ANIMADO (Blanco Minimalista)
         // ==========================================
         const AnimatedHero = () => {
             const words = ['BIENVENIDO', 'WELCOME', 'BIENVENUE', 'ようこそ', '欢迎', 'ДОБРО ПОЖАЛОВАТЬ'];
@@ -147,18 +94,17 @@
             }, []);
 
             return (
-                // El contenedor tiene la clase hero-atmospheric-bg (definida en el <style>)
-                <div className="w-full hero-atmospheric-bg pt-20 pb-24 mb-6 flex items-center justify-center min-h-[300px]">
-                    <div className="relative z-10 text-center px-4 max-w-4xl">
-                        {/* Texto rotativo - Ahora MUCHO más grande y audaz (text-3xl md:text-5xl font-black) */}
+                <div className="w-full bg-white pt-24 pb-20 mb-2 flex items-center justify-center min-h-[250px]">
+                    <div className="text-center px-4 max-w-4xl">
+                        {/* Texto rotativo */}
                         <h2 
-                            className={`text-3xl sm:text-4xl md:text-5xl font-black tracking-[0.4em] uppercase transition-all duration-1000 ease-in-out ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 -translate-y-4 scale-95'}`}
+                            className={`text-3xl sm:text-4xl md:text-5xl font-black tracking-[0.4em] uppercase transition-all duration-1000 ease-in-out text-black ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 -translate-y-4 scale-95'}`}
                             style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}
                         >
                             {words[index]}
                         </h2>
                         {/* Subtítulo sutil bajo el bienvenido */}
-                        <p className={`mt-6 text-sm md:text-base font-light tracking-[0.15em] uppercase text-black/60 transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+                        <p className={`mt-6 text-sm md:text-base font-light tracking-[0.2em] uppercase text-gray-400 transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
                             MIGUEL BALLIACHE - ART STUDIO
                         </p>
                     </div>
@@ -177,7 +123,7 @@
             }, [images.length]);
 
             return (
-                <div className="relative w-full h-[75vh] md:h-[85vh] bg-gray-50 overflow-hidden group border-y border-gray-100">
+                <div className="relative w-full h-[75vh] md:h-[85vh] bg-gray-50 overflow-hidden group">
                     {images.map((img, idx) => (
                         <div key={idx} className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${idx === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}>
                             <img src={img} alt={`Slide destacado ${idx + 1}`} className="w-full h-full object-cover object-center" onError={handleImageError} />
@@ -304,7 +250,7 @@
                     <main className="flex-grow pt-20 md:pt-24">
                         {currentPath === 'inicio' && (
                             <div className="animate-fade-in">
-                                {/* Componente del Hero Atmosférico que reemplaza al logo de cubos */}
+                                {/* Componente del Hero Minimalista Blanco */}
                                 <AnimatedHero />
                                 <Slider images={SLIDER_IMAGES} />
                             </div>
