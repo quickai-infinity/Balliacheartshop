@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miguel Balliache | Espacio Arte</title>
+    
+    <!-- Tailwind CSS para los estilos -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React y ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    
+    <!-- Babel para compilar JSX en el navegador -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(10px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        .animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
+    </style>
+</head>
+<body class="bg-white">
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Íconos SVG optimizados para no depender de librerías externas
+        const Icons = {
+            Menu: () => <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>,
+            X: () => <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>,
+            ChevronLeft: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>,
+            ChevronRight: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>,
+            // Iconos Oficiales
+            Instagram: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>,
+            WhatsApp: () => <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.498 14.382c-.301-.15-1.767-.867-2.04-.966-.273-.101-.473-.15-.673.15-.197.295-.771.964-.944 1.162-.175.195-.349.21-.646.065-.301-.15-1.265-.462-2.406-1.485-.888-.795-1.484-1.77-1.66-2.07-.174-.3-.019-.465.13-.615.136-.135.301-.345.451-.523.146-.181.194-.301.297-.496.098-.202.049-.39-.026-.54-.075-.15-.672-1.62-.922-2.206-.24-.584-.487-.51-.672-.51-.172-.015-.371-.015-.571-.015-.2 0-.523.074-.797.359-.273.3-1.045 1.02-1.045 2.475s1.07 2.865 1.219 3.075c.149.21 2.095 3.195 5.076 4.485.709.3 1.262.48 1.694.614.71.226 1.356.195 1.868.12.576-.088 1.767-.72 2.016-1.426.246-.705.246-1.305.172-1.425-.07-.12-.27-.195-.57-.345zM12 20.264c-1.47 0-2.91-.39-4.17-1.125l-.3-.18-3.105.81.825-3.03-.195-.315A8.253 8.253 0 0 1 3.75 12c0-4.56 3.72-8.28 8.28-8.28 4.56 0 8.28 3.72 8.28 8.28 0 4.56-3.72 8.28-8.28 8.28zM12 2.25C6.615 2.25 2.25 6.615 2.25 12c0 1.725.45 3.39 1.32 4.875L2.25 21.75l4.98-1.305A9.702 9.702 0 0 0 12 21.75c5.385 0 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25z"/></svg>,
+            Mail: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        };
+
+        // --- RUTAS DE IMÁGENES ---
+        const PINTURAS = [
+            './IMAGENES/PINTURAS/Afectos_.jpg', './IMAGENES/PINTURAS/DeepBlue_77_103.jpg',
+            './IMAGENES/PINTURAS/FemmeGarden_.jpg', './IMAGENES/PINTURAS/Horizonte_.jpg',
+            './IMAGENES/PINTURAS/India_50_70.jpg', './IMAGENES/PINTURAS/Infante_.jpg',
+            './IMAGENES/PINTURAS/Lorena_100_70.jpg', './IMAGENES/PINTURAS/MochitoEnAzul_.jpg',
+            './IMAGENES/PINTURAS/MochitoEnRojo_.jpg', './IMAGENES/PINTURAS/Ninfa_81_115.jpg',
+            './IMAGENES/PINTURAS/Shelter_195_150_.jpg', './IMAGENES/PINTURAS/SinTitulo_.jpg'
+        ];
+
+        const CERAMICA = [
+            './IMAGENES/CERAMICA/MadreMesaAnchoasf1_37_42_16.jpg', './IMAGENES/CERAMICA/MadreMesaAnchoasf2_37_42_16.jpg',
+            './IMAGENES/CERAMICA/MunecaB_.jpg', './IMAGENES/CERAMICA/MunecaFrente_.jpg'
+        ];
+
+        const BRONCE = [
+            './IMAGENES/BRONCE/Aurea1f1_23_24_11.JPG', './IMAGENES/BRONCE/Aurea1f2_1_23_24_11.JPG',
+            './IMAGENES/BRONCE/Aureas1Frente_23_24_11.jpg', './IMAGENES/BRONCE/IMG_0023_1.jpg',
+            './IMAGENES/BRONCE/IMG_0028.jpg', './IMAGENES/BRONCE/Ninfa1Atras_41_24_32.jpg',
+            './IMAGENES/BRONCE/Ninfa1Bronce_41_24_32 copy.jpg'
+        ];
+
+        const SLIDER_IMAGES = [
+            './IMAGENES/PINTURAS/Afectos_.jpg', './IMAGENES/PINTURAS/SinTitulo_.jpg',
+            './IMAGENES/CERAMICA/MadreMesaAnchoasf1_37_42_16.jpg', './IMAGENES/BRONCE/Aurea1f1_23_24_11.JPG'
+        ];
+
+        const handleImageError = (e) => {
+            e.target.onerror = null;
+            e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='%23f9fafb'/%3E%3Cpath d='M1 1h98v98H1z' fill='none' stroke='%23f3f4f6' stroke-width='1'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='10' font-weight='400' fill='%23d1d5db' letter-spacing='2'%3EIMAGEN NO DISPONIBLE%3C/text%3E%3C/svg%3E";
+        };
+
+        // ==========================================
+        // COMPONENTE: LOGO ANIMADO TIPO CULEBRA / CUBOS
+        // ==========================================
+        const AnimatedHero = () => {
+            const words = ['BIENVENIDO', 'WELCOME', 'BIENVENUE', 'ようこそ', '欢迎', 'ДОБРО ПОЖАЛОВАТЬ'];
+            const [index, setIndex] = useState(0);
+            const [isVisible, setIsVisible] = useState(true);
+
+            useEffect(() => {
+                const cycle = setInterval(() => {
+                    setIsVisible(false); 
+                    setTimeout(() => {
+                        setIndex((prev) => (prev + 1) % words.length);
+                        setIsVisible(true); 
+                    }, 1400); // Espera a que los cubos se desvanezcan para cambiar palabra
+                }, 4500); // Intervalo de la animación completa
+                return () => clearInterval(cycle);
+            }, []);
+
+            // Coordenadas para formar la M y la B en una matriz
+            const mCubes = [
+                [0,4], [0,3], [0,2], [0,1], [0,0], // Pierna izq (subiendo)
+                [1,1], [2,2], [3,1],               // Centro (bajando y subiendo)
+                [4,0], [4,1], [4,2], [4,3], [4,4]  // Pierna der (bajando)
+            ];
+            const bCubes = [
+                [6,4], [6,3], [6,2], [6,1], [6,0], // Columna (subiendo)
+                [7,0], [8,0], [9,1], [8,2], [7,2], // Bucle superior
+                [9,3], [8,4], [7,4]                // Bucle inferior
+            ];
+            const allCubes = [...mCubes, ...bCubes];
+
+            return (
+                <div className="flex flex-col items-center justify-center pt-8 pb-10 min-h-[220px]">
+                    {/* Contenedor del Logo de Cubos */}
+                    <div className="relative w-32 h-16 md:w-40 md:h-20 mb-6">
+                        <svg viewBox="-1 -1 11 6" className="w-full h-full fill-black">
+                            {allCubes.map((pos, i) => {
+                                // Cálculos para el efecto cascada tipo "culebra"
+                                const delay = isVisible ? i * 0.04 : (allCubes.length - i) * 0.04;
+                                return (
+                                    <rect
+                                        key={i}
+                                        x={pos[0]} y={pos[1]}
+                                        width="0.92" height="0.92"
+                                        className={`transition-all duration-300 ease-in-out ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}
+                                        style={{ transitionDelay: `${delay}s` }}
+                                    />
+                                );
+                            })}
+                        </svg>
+                    </div>
+                    {/* Texto Rotativo Multidioma */}
+                    <h2 className={`text-xl md:text-2xl font-bold tracking-[0.3em] uppercase transition-all duration-700 ease-in-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+                        {words[index]}
+                    </h2>
+                </div>
+            );
+        };
+
+        const Slider = ({ images }) => {
+            const [currentIndex, setCurrentIndex] = useState(0);
+            const nextSlide = () => setCurrentIndex((prev) => (prev + 1) % images.length);
+            const prevSlide = () => setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+
+            useEffect(() => {
+                const timer = setInterval(nextSlide, 6000);
+                return () => clearInterval(timer);
+            }, [images.length]);
+
+            return (
+                <div className="relative w-full h-[75vh] md:h-[85vh] bg-gray-50 overflow-hidden group">
+                    {images.map((img, idx) => (
+                        <div key={idx} className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${idx === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}>
+                            <img src={img} alt={`Slide destacado ${idx + 1}`} className="w-full h-full object-cover object-center" onError={handleImageError} />
+                            <div className="absolute inset-0 bg-black/5" /> 
+                        </div>
+                    ))}
+                    <button onClick={prevSlide} className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 bg-white/70 hover:bg-white text-black rounded-full transition-all opacity-0 group-hover:opacity-100 shadow-sm">
+                        <Icons.ChevronLeft />
+                    </button>
+                    <button onClick={nextSlide} className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-3 bg-white/70 hover:bg-white text-black rounded-full transition-all opacity-0 group-hover:opacity-100 shadow-sm">
+                        <Icons.ChevronRight />
+                    </button>
+                    <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex space-x-3">
+                        {images.map((_, idx) => (
+                            <button key={idx} onClick={() => setCurrentIndex(idx)} className={`transition-all duration-300 ${idx === currentIndex ? 'w-8 bg-white h-1.5' : 'w-2 bg-white/50 h-1.5'}`} />
+                        ))}
+                    </div>
+                </div>
+            );
+        };
+
+        const Gallery = ({ title, images }) => {
+            return (
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 animate-fade-in">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold tracking-widest text-gray-900 uppercase">{title}</h2>
+                        <div className="w-12 h-1 bg-black mx-auto mt-4"></div>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+                        {images.map((img, idx) => (
+                            <div key={idx} className="group relative aspect-[4/5] bg-gray-50 overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300">
+                                <img src={img} alt={`Obra de ${title} ${idx + 1}`} className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" onError={handleImageError} loading="lazy" />
+                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-end justify-start p-6">
+                                    <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white font-medium tracking-wider text-sm bg-black/60 px-3 py-1">
+                                        Ref. {idx + 1}
+                                    </span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        };
+
+        const Biography = () => {
+            return (
+                <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20 animate-fade-in">
+                    <div className="flex flex-col md:flex-row gap-16 items-start">
+                        <div className="w-full md:w-5/12">
+                            <div className="aspect-[3/4] bg-gray-100 overflow-hidden">
+                                <img src="./LOGOS/LOGO-1.jpeg" alt="Miguel Balliache en su estudio" className="w-full h-full object-cover grayscale contrast-125" onError={handleImageError} />
+                            </div>
+                        </div>
+                        <div className="w-full md:w-7/12">
+                            <h2 className="text-4xl font-black tracking-widest text-black mb-8 uppercase">El Artista</h2>
+                            <div className="space-y-6 text-gray-700 leading-relaxed font-light text-lg">
+                                <p><strong className="font-semibold text-black">Miguel Balliache</strong> (Caracas, 1973) es un artista plástico de origen vasco-venezolano. De formación arquitecto —egresado de la Facultad de Arquitectura de la Universidad Central de Venezuela en 1998—, su trayectoria artística se ha forjado a través de una constante exploración y experimentación con diversas técnicas, transitando fluidamente entre la pintura, la escultura, la cerámica, el grabado y la fundición.</p>
+                                <p>Radicado en San Sebastián desde 2003, su obra navega entre lo intuitivo y lo orgánico. En su pintura, de fuerte influencia del expresionismo abstracto, destaca un magistral y audaz uso del color, creando atmósferas que oscilan entre la abstracción vibrante y la figuración onírica, conformando lo que él denomina "pequeños universos".</p>
+                                <p>Más allá del lienzo, Balliache integra materiales encontrados en la naturaleza y en entornos urbanos, otorgándoles nuevas lecturas. Sus esculturas en bronce y sus piezas de cerámica se caracterizan por presentar formas primitivas, viscerales y cargadas de texturas.</p>
+                                <p>En 2022 fundó <span className="font-semibold text-black">BALLIACHE ESPACIO ARTE</span> en el barrio de Egia (San Sebastián), un estudio-taller que sirve como núcleo creativo para la creación personal y el fomento del talento artístico local.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [currentPath, setCurrentPath] = useState('inicio');
+            const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+            useEffect(() => {
+                window.scrollTo(0, 0);
+                setIsMenuOpen(false);
+            }, [currentPath]);
+
+            const navLinks = [
+                { id: 'inicio', label: 'Inicio' },
+                { id: 'pinturas', label: 'Pinturas' },
+                { id: 'ceramica', label: 'Cerámica' },
+                { id: 'bronce', label: 'Bronce' },
+                { id: 'biografia', label: 'Biografía' },
+            ];
+
+            return (
+                <div className="min-h-screen flex flex-col font-sans">
+                    <header className="fixed w-full top-0 z-50 bg-white border-b border-gray-100 shadow-sm transition-all">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="flex justify-between items-center h-20 md:h-24">
+                                <div className="flex items-center gap-2 cursor-pointer" onClick={() => setCurrentPath('inicio')}>
+                                    <span className="text-2xl sm:text-3xl md:text-[2.5rem] font-black tracking-widest text-black" style={{fontFamily: 'system-ui, -apple-system, sans-serif'}}>BALLIACHE</span>
+                                    <div className="w-[3px] md:w-[4px] h-8 md:h-10 bg-black"></div>
+                                    <div className="flex flex-col justify-center leading-[0.9] mt-1 md:mt-0">
+                                        <span className="text-[9px] md:text-xs font-black tracking-[0.2em] text-black">ESPACIO</span>
+                                        <span className="text-[9px] md:text-xs font-black tracking-[0.2em] text-black mt-0.5">ARTE</span>
+                                    </div>
+                                </div>
+                                <nav className="hidden md:flex space-x-8">
+                                    {navLinks.map((link) => (
+                                        <button key={link.id} onClick={() => setCurrentPath(link.id)} className={`text-sm font-semibold tracking-widest uppercase transition-colors hover:text-gray-500 relative ${currentPath === link.id ? 'text-black' : 'text-gray-400'}`}>
+                                            {link.label}
+                                            {currentPath === link.id && <span className="absolute -bottom-2 left-1/2 w-1/2 -translate-x-1/2 h-0.5 bg-black rounded-full" />}
+                                        </button>
+                                    ))}
+                                </nav>
+                                <div className="md:hidden">
+                                    <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-black p-2 focus:outline-none">
+                                        {isMenuOpen ? <Icons.X /> : <Icons.Menu />}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {isMenuOpen && (
+                            <div className="md:hidden absolute top-full left-0 w-full bg-white border-b border-gray-100 shadow-lg py-4 px-4 flex flex-col space-y-4">
+                                {navLinks.map((link) => (
+                                    <button key={link.id} onClick={() => setCurrentPath(link.id)} className={`text-left text-lg font-bold tracking-wider uppercase py-2 border-b border-gray-50 ${currentPath === link.id ? 'text-black' : 'text-gray-500'}`}>
+                                        {link.label}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </header>
+
+                    <main className="flex-grow pt-20 md:pt-24">
+                        {currentPath === 'inicio' && (
+                            <div className="animate-fade-in">
+                                {/* Componente Animado Nuevo que reemplaza "Obras Disponibles" */}
+                                <AnimatedHero />
+                                <Slider images={SLIDER_IMAGES} />
+                            </div>
+                        )}
+
+                        {currentPath === 'pinturas' && <Gallery title="Pinturas" images={PINTURAS} />}
+                        {currentPath === 'ceramica' && <Gallery title="Cerámica" images={CERAMICA} />}
+                        {currentPath === 'bronce' && <Gallery title="Bronce" images={BRONCE} />}
+                        {currentPath === 'biografia' && <Biography />}
+                    </main>
+
+                    <footer className="bg-white py-12 border-t border-gray-200 mt-auto">
+                        <div className="max-w-7xl mx-auto px-4 flex flex-col items-center">
+                            <div className="flex items-center gap-2 mb-6 opacity-70">
+                                <span className="text-lg font-black tracking-widest text-black">BALLIACHE</span>
+                                <div className="w-[2px] h-5 bg-black"></div>
+                                <div className="flex flex-col justify-center leading-none">
+                                    <span className="text-[6px] font-black tracking-[0.2em] text-black">ESPACIO</span>
+                                    <span className="text-[6px] font-black tracking-[0.2em] text-black mt-[1px]">ARTE</span>
+                                </div>
+                            </div>
+
+                            <div className="flex space-x-6 mb-8">
+                                {/* Instagram Link */}
+                                <a href="https://www.instagram.com/balliache_artstudio?igsh=MXRicGVsOTZpaHUydA==" target="_blank" rel="noreferrer" className="text-gray-400 hover:text-black transition-colors" aria-label="Instagram">
+                                    <Icons.Instagram />
+                                </a>
+                                {/* WhatsApp 1-tap Link */}
+                                <a href="https://wa.me/34616764907" target="_blank" rel="noreferrer" className="text-gray-400 hover:text-black transition-colors" aria-label="WhatsApp">
+                                    <Icons.WhatsApp />
+                                </a>
+                                {/* Correo */}
+                                <a href="mailto:info@balliache-arte.com" className="text-gray-400 hover:text-black transition-colors" aria-label="Email">
+                                    <Icons.Mail />
+                                </a>
+                            </div>
+                            
+                            <p className="text-xs text-gray-400 tracking-wider text-center">
+                                © {new Date().getFullYear()} MIGUEL BALLIACHE. SAN SEBASTIÁN, ESPAÑA. TODOS LOS DERECHOS RESERVADOS.
+                            </p>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
